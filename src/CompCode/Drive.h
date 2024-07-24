@@ -17,6 +17,12 @@ class Drive {
     }
   
     void move(int u_lin, int u_ang);
+    
+    void turn(int degrees) {
+      move(0, TurnSpeed);
+      delay(TimeMSPerDegree*degrees);
+      move(0,0);
+    }
 
     bool follow_line_until_mag(bool blocking) {
       if (!blocking) {
@@ -35,11 +41,11 @@ class Drive {
       return pixy.line.barcodes[0].value;
     }
 
-    bool center_bar_code(bool blocking) {
+    bool center_bar_code(int bcid, bool blocking) {
       if (!blocking) {
-        return center_barcode();
+        return center_barcode(bcid);
       } else {
-        while (!center_barcode()) {}
+        while (!center_barcode(bcid)) {}
         return true
       }
     }
